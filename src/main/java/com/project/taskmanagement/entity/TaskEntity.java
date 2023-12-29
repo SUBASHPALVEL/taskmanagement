@@ -2,9 +2,6 @@ package com.project.taskmanagement.entity;
 import java.time.LocalDate;
 import java.util.Set;
 
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -14,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "task")
-public class TaskEntity {
 
+public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
@@ -50,7 +47,6 @@ public class TaskEntity {
 
     @OneToMany(mappedBy = "task")
     @JoinColumn(name = "task_id")
-    @Fetch(FetchMode.SELECT)
     private Set<UserEntity> assignedUsers;
     
 }
