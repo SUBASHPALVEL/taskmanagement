@@ -33,7 +33,7 @@ public class TaskEntity {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @Column(name = "due_date")
+    @Column(name = "due_Date")
     @Temporal(TemporalType.DATE)
     private LocalDate dueDate;
 
@@ -45,8 +45,7 @@ public class TaskEntity {
     @Temporal(TemporalType.DATE)
     private LocalDate completedDate;
 
-    @OneToMany(mappedBy = "task")
-    @JoinColumn(name = "task_id")
+    @OneToMany(mappedBy = "userId")
     private Set<UserEntity> assignedUsers;
     
 }
