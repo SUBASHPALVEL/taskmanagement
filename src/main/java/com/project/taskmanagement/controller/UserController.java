@@ -14,14 +14,14 @@ public class UserController {
 
     private final List<UserDTO> users = new ArrayList<>();
 
-    // http://localhost:8080/api/users/allUsers
-    @GetMapping("/allUsers")
+    // http://localhost:8080/api/users
+    @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    // http://localhost:8080/api/users/getUser/{userId}
-    @GetMapping("/getUser/{userId}")
+    // http://localhost:8080/api/user/{userId}
+    @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
         UserDTO user = findUserById(userId);
         if (user != null) {
@@ -31,15 +31,15 @@ public class UserController {
         }
     }
 
-    // http://localhost:8080/api/users/createUser
-    @PostMapping("/createUser")
+    // http://localhost:8080/api/user
+    @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO newUser) {
         users.add(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    // http://localhost:8080/api/users/updateUser/{userId}
-    @PutMapping("/updateUser/{userId}")
+    // http://localhost:8080/api/User/{userId}
+    @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO updatedUser) {
         UserDTO existingUser = findUserById(userId);
         if (existingUser != null) {
@@ -49,8 +49,8 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    // http://localhost:8080/api/users/deleteUser/{userId}
-    @DeleteMapping("/deleteUser/{userId}")
+    // http://localhost:8080/api/users/{userId}
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         UserDTO user = findUserById(userId);
         if (user != null) {
