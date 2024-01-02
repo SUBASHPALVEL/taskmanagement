@@ -1,13 +1,11 @@
 package com.project.taskmanagement.converter;
 
-import org.springframework.stereotype.Component;
-
 import com.project.taskmanagement.dto.TaskDTO;
 import com.project.taskmanagement.entity.TaskEntity;
 
-@Component
 public class TaskConverter {
-    public TaskEntity convertDTOtoEntity (TaskDTO taskDTO){
+
+    public static TaskEntity convertToEntity(TaskDTO taskDTO) {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTaskId(taskDTO.getTaskId());
         taskEntity.setTitle(taskDTO.getTitle());
@@ -21,7 +19,7 @@ public class TaskConverter {
         return taskEntity;
     }
 
-    public TaskDTO  convertEntitytoDTO (TaskEntity taskEntity){
+    public static TaskDTO convertToDTO(TaskEntity taskEntity) {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setTaskId(taskEntity.getTaskId());
         taskDTO.setTitle(taskEntity.getTitle());
@@ -34,5 +32,5 @@ public class TaskConverter {
         taskDTO.setAssignedUsers(taskEntity.getAssignedUsers());
         return taskDTO;
     }
-
 }
+

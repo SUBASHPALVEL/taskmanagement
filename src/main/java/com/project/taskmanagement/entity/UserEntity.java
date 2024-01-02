@@ -1,5 +1,8 @@
 package com.project.taskmanagement.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +21,6 @@ public class UserEntity {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @ManyToMany(mappedBy = "assignedUsers")
+    private List<TaskEntity> assignedTasks = new ArrayList<>();
 }

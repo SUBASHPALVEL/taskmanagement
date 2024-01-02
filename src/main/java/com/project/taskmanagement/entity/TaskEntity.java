@@ -1,6 +1,7 @@
 package com.project.taskmanagement.entity;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -45,7 +46,11 @@ public class TaskEntity {
     @Temporal(TemporalType.DATE)
     private LocalDate completedDate;
 
-    @OneToMany(mappedBy = "userId")
-    private Set<UserEntity> assignedUsers;
+    @ManyToMany
+    @JoinTable(name="tasks_users",
+                    joinColumns = @JoinColumn(name="taskId"),
+                    inverseJoinColumns = @JoinColumn(name="userId")
+    )
+    private List<UserEntity> assignedUsers = new ArrayList<>();
     
 }

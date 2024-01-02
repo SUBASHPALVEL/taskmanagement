@@ -1,7 +1,7 @@
 package com.project.taskmanagement.dto;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import com.project.taskmanagement.entity.Priority;
 import com.project.taskmanagement.entity.Status;
@@ -21,5 +21,5 @@ public class TaskDTO {
     private LocalDate dueDate;
     private LocalDate createdDate;
     private LocalDate completedDate;
-    private Set<UserEntity> assignedUsers;
+    private List<UserEntity> assignedUsers;
 }

@@ -1,70 +1,71 @@
 package com.project.taskmanagement.controller;
 
 import com.project.taskmanagement.dto.UserDTO;
+import com.project.taskmanagement.dto.TaskDTO;
+import com.project.taskmanagement.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final List<UserDTO> users = new ArrayList<>();
+    private final UserService userService;
 
-    // http://localhost:8080/api/users
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    // http://localhost:8080/api/user/{userId}
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
-        UserDTO user = findUserById(userId);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        UserDTO userDTO = userService.getUserById(userId);
+        if (userDTO != null) {
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // http://localhost:8080/api/user
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userDTOList = userService.getAllUsers();
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO newUser) {
-        users.add(newUser);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdUserDTO = userService.createUser(userDTO);
+        return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
     }
 
-    // http://localhost:8080/api/User/{userId}
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO updatedUser) {
-        UserDTO existingUser = findUserById(userId);
-        if (existingUser != null) {
-            existingUser.setUsername(updatedUser.getUsername());
-            return new ResponseEntity<>(existingUser, HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        UserDTO updatedUserDTO = userService.updateUser(userDTO);
+        if (updatedUserDTO != null) {
+            return new ResponseEntity<>(updatedUserDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    // http://localhost:8080/api/users/{userId}
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        UserDTO user = findUserById(userId);
-        if (user != null) {
-            users.remove(user);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{userId}/assignedTasks")
+    public ResponseEntity<List<TaskDTO>> getAssignedTasksByUserId(@PathVariable Long userId) {
+        List<TaskDTO> assignedTasks = userService.getAssignedTasksByUserId(userId);
+        if (assignedTasks != null) {
+            return new ResponseEntity<>(assignedTasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    private UserDTO findUserById(Long userId) {
-        return users.stream()
-                .filter(user -> user.getUserId().equals(userId))
-                .findFirst()
-                .orElse(null);
     }
 }
