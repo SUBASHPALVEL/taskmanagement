@@ -19,7 +19,7 @@ public class TaskDTO {
     private Status status;
     private Priority priority;
     private LocalDate dueDate;
-    private LocalDate creationDate;
+    private LocalDate createdDate;
     private LocalDate completedDate;
     private Set<UserEntity> assignedUsers;
 }
