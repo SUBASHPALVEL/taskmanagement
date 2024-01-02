@@ -49,7 +49,7 @@ public class TaskController {
             existingTask.setStatus(updatedTask.getStatus());
             existingTask.setPriority(updatedTask.getPriority());
             existingTask.setDueDate(updatedTask.getDueDate());
-            existingTask.setCreatedDate(updatedTask.getCreatedDate());
+            existingTask.setAssignedDate(updatedTask.getAssignedDate());
             existingTask.setCompletedDate(updatedTask.getCompletedDate());
             existingTask.setAssignedUsers(updatedTask.getAssignedUsers());
 

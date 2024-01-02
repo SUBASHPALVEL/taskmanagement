@@ -37,9 +37,9 @@ public class TaskEntity {
     @Temporal(TemporalType.DATE)
     private LocalDate dueDate;
 
-    @Column(name = "created_Date")
+    @Column(name = "assigned_Date")
     @Temporal(TemporalType.DATE)
-    private LocalDate createdDate;
+    private LocalDate assignedDate;
 
     @Column(name = "completed_Date")
     @Temporal(TemporalType.DATE)
