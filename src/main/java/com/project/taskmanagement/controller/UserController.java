@@ -1,6 +1,7 @@
 package com.project.taskmanagement.controller;
 
 import com.project.taskmanagement.dto.UserDTO;
+import com.project.taskmanagement.exception.BusinessException;
 import com.project.taskmanagement.dto.TaskDTO;
 import com.project.taskmanagement.service.UserService;
 
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.ui.Model;
+
 
 @Controller
 @RequestMapping("/api/users")
@@ -70,9 +74,37 @@ public class UserController {
         }
     }
 
-    @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
-    public ResponseEntity<UserDTO> login(@Valid @ModelAttribute("user") UserDTO userDTO) {
-        userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    // @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+    // public ResponseEntity<UserDTO> login(@Valid @ModelAttribute("user") UserDTO userDTO) {
+    //     userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+    //     return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    // }
+
+    // @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+    // public String login(@Valid @ModelAttribute("user") UserDTO userDTO) {
+    //     UserDTO loggedInUser = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+
+    // if (loggedInUser != null) {
+    //     // Login successful
+    //     return ("success");
+    // } else {
+    //     // Login failed
+    //     return ("failure");
+    // }
+    // }
+
+    @PostMapping(path = "/login", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+public String login(@Valid @ModelAttribute("user") UserDTO userDTO, Model model) {
+    try {
+        UserDTO loggedInUser = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+        // Add the loggedInUser to the model if needed in the HTML template
+        model.addAttribute("loggedInUser", loggedInUser);
+        return "success"; // Assuming "success" is the name of your Thymeleaf template
+    } catch (BusinessException ex) {
+        // Handle BusinessException by adding error details to the model
+        model.addAttribute("errorList", ex.getErrorList());
+        return "failure"; // Assuming "failure" is the name of your Thymeleaf template
     }
+}
+
 }

@@ -16,4 +16,8 @@ public class BusinessException extends RuntimeException {
     public BusinessException(List<ErrorModel> errors){
         this.errors = errors;
     }
+
+    public List<ErrorModel> getErrorList() {
+        return errors;
+}
 }
