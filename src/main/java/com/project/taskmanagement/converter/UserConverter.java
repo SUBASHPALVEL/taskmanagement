@@ -24,6 +24,8 @@ public class UserConverter {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userDTO.getUserId());
         userEntity.setUsername(userDTO.getUsername());
+        userEntity.setUserMail(userDTO.getUsermail());
+        userEntity.setPassword(userDTO.getPassword());
         // Note: Do not set assignedTasks in the opposite direction to avoid cyclic references
         return userEntity;
     }
