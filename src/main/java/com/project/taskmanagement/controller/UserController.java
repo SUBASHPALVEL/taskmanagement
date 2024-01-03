@@ -4,7 +4,7 @@ import com.project.taskmanagement.dto.UserDTO;
 import com.project.taskmanagement.dto.TaskDTO;
 import com.project.taskmanagement.service.UserService;
 
-import lombok.NoArgsConstructor;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
+    private UserDTO userDTO;
     private UserService userService;
 
     @GetMapping("/{userId}")
@@ -67,5 +67,11 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+     @PostMapping(path = "/login", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO){
+        userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

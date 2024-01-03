@@ -6,23 +6,28 @@ import com.project.taskmanagement.converter.UserConverter;
 import com.project.taskmanagement.dto.UserDTO;
 import com.project.taskmanagement.dto.TaskDTO;
 import com.project.taskmanagement.entity.UserEntity;
+import com.project.taskmanagement.exception.BusinessException;
+import com.project.taskmanagement.exception.ErrorModel;
 import com.project.taskmanagement.repository.UserRepository;
 import com.project.taskmanagement.repository.TaskRepository;
 import com.project.taskmanagement.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
 
-    @Autowired
+    private UserConverter userConverter;
+
+    private TaskRepository taskRepository;
+
     public UserServiceImpl(UserRepository userRepository, TaskRepository taskRepository) {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
@@ -71,5 +76,25 @@ public class UserServiceImpl implements UserService {
         return (userEntity != null)
                 ? userEntity.getAssignedTasks().stream().map(TaskConverter::convertToDTO).collect(Collectors.toList())
                 : null;
+    }
+
+    @Override
+    public UserDTO login(String email, String password) {
+        UserDTO userDTO = null;
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUsermailAndPassword(email, password);
+
+        if(optionalUserEntity.isPresent()){
+            userDTO = userConverter.convertToDTO(optionalUserEntity.get());
+        }else{
+
+            List<ErrorModel> errorModelList = new ArrayList<>();
+            ErrorModel errorModel = new ErrorModel();
+            errorModel.setCode("INVALID_LOGIN");
+            errorModel.setMessage("Incorrect Email or Password");
+            errorModelList.add(errorModel);
+
+            throw new BusinessException(errorModelList);
+        }
+        return userDTO;
     }
 }

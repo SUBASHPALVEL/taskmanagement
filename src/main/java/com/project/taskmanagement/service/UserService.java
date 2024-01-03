@@ -18,4 +18,6 @@ public interface UserService {
     void deleteUser(Long userId);
 
     List<TaskDTO> getAssignedTasksByUserId(Long userId);
+
+    UserDTO login(String email, String password);
 }
