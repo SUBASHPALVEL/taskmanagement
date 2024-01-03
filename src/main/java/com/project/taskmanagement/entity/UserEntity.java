@@ -30,5 +30,5 @@ public class UserEntity {
 
     @ManyToMany(mappedBy = "assignedUsers")
     private List<TaskEntity> assignedTasks = new ArrayList<>();
-
+    
 }

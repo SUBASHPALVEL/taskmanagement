@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private UserDTO userDTO;
+    @Autowired
     private UserService userService;
 
     @GetMapping("/{userId}")
@@ -69,8 +68,8 @@ public class UserController {
         }
     }
 
-     @PostMapping(path = "/login", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO){
+    @PostMapping(path = "/login", consumes = { "application/json" }, produces = { "application/json" })
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO) {
         userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
