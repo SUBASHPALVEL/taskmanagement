@@ -10,12 +10,12 @@
 
     <div class="login-container">
         <h2>Login</h2>
-        <form th:action="@{/api/users/login}" method="post" onsubmit="return validateForm()">
+        <form th:action="@{/api/users/login}" method="post" onsubmit="return validateForm()" th:object="${user}">
             <label for="usermail">Email:</label>
-            <input type="email" id="usermail" name="usermail" required th:value="${usermail}" placeholder="user@example.com">
+            <input type="email" id="usermail" name="usermail" required placeholder="user@example.com">
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required th:value="${password}">
+            <input type="password" id="password" name="password" required >
 
             <input type="submit" value="Login">
         </form>

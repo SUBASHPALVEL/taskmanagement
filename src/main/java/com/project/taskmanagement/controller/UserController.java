@@ -9,11 +9,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -37,9 +38,10 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDTO> createUser(@ModelAttribute("user") UserDTO userDTO) {
-        UserDTO createdUserDTO = userService.createUser(userDTO);
-        return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
+    public String createUser(@ModelAttribute("user") UserDTO userDTO) {
+        userService.createUser(userDTO);
+        // return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
+        return "home";
     }
 
     @PutMapping
@@ -68,8 +70,8 @@ public class UserController {
         }
     }
 
-    @PostMapping(path = "/login", consumes = { "application/json" }, produces = { "application/json" })
-    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO) {
+    @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+    public ResponseEntity<UserDTO> login(@Valid @ModelAttribute("user") UserDTO userDTO) {
         userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
