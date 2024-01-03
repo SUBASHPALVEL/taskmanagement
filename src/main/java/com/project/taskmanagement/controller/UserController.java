@@ -3,6 +3,9 @@ package com.project.taskmanagement.controller;
 import com.project.taskmanagement.dto.UserDTO;
 import com.project.taskmanagement.dto.TaskDTO;
 import com.project.taskmanagement.service.UserService;
+
+import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
@@ -56,10 +56,10 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/assignedTasks")
+    @GetMapping("/{userId}/tasks")
     public ResponseEntity<List<TaskDTO>> getAssignedTasksByUserId(@PathVariable Long userId) {
         List<TaskDTO> assignedTasks = userService.getAssignedTasksByUserId(userId);
         if (assignedTasks != null) {
