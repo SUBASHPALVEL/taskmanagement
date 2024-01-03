@@ -13,12 +13,8 @@ import java.util.List;
 @RequestMapping("/api/tasks")
 public class TaskController {
 
-    private final TaskService taskService;
-
     @Autowired
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    private TaskService taskService;
 
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long taskId) {
