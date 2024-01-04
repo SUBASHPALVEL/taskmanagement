@@ -42,10 +42,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") UserDTO userDTO) {
-        userService.createUser(userDTO);
-        // return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
-        return "home";
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdUserDTO = userService.createUser(userDTO);
+        return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
     }
 
     @PutMapping
