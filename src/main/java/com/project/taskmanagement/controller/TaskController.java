@@ -174,17 +174,17 @@ public class TaskController {
         }
     }
 
-     @GetMapping("/userTasks/{userId}")
-    public String getTasksByUserId(@PathVariable Long userId, Model model) {
-        List<TaskDTO> assignedtasks = taskService.getTasksByUserId(userId);
-        model.addAttribute("tasks", assignedtasks);
-        return "tasklist";
-    }
-
-    // @GetMapping("/userTasks/{userId}")
-    // public ResponseEntity<List<TaskDTO>> getTasksByUserId(@PathVariable Long userId) {
-    //     List<TaskDTO> tasks = taskService.getTasksByUserId(userId);
-    //     return new ResponseEntity<>(tasks, HttpStatus.OK);
+    //  @GetMapping("/userTasks/{userId}")
+    // public String getTasksByUserId(@PathVariable Long userId, Model model) {
+    //     List<TaskDTO> assignedtasks = taskService.getTasksByUserId(userId);
+    //     model.addAttribute("tasks", assignedtasks);
+    //     return "tasklist";
     // }
+
+    @GetMapping("/userTasks/{userId}")
+    public ResponseEntity<List<TaskDTO>> getTasksByUserId(@PathVariable Long userId) {
+        List<TaskDTO> tasks = taskService.getTasksByUserId(userId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
 
 }
