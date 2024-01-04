@@ -64,16 +64,23 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // @GetMapping("/{userId}/tasks")
+    // public ResponseEntity<List<TaskDTO>> getAssignedTasksByUserId(@PathVariable Long userId) {
+    //     List<TaskDTO> assignedTasks = userService.getAssignedTasksByUserId(userId);
+    //     if (assignedTasks != null) {
+    //         return new ResponseEntity<>(assignedTasks, HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     }
+    // }
+    
     @GetMapping("/{userId}/tasks")
-    public ResponseEntity<List<TaskDTO>> getAssignedTasksByUserId(@PathVariable Long userId) {
+    public String getAssignedTasksByUserId(@PathVariable Long userId, Model model) {
         List<TaskDTO> assignedTasks = userService.getAssignedTasksByUserId(userId);
-        if (assignedTasks != null) {
-            return new ResponseEntity<>(assignedTasks, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        model.addAttribute("tasks", assignedTasks);
+        return "userTasks";
     }
-
+    
     // @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
     // public ResponseEntity<UserDTO> login(@Valid @ModelAttribute("user") UserDTO userDTO) {
     //     userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());

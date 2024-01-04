@@ -12,6 +12,7 @@ import com.project.taskmanagement.repository.UserRepository;
 import com.project.taskmanagement.service.TaskService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -176,4 +177,13 @@ public class TaskServiceImpl implements TaskService {
                 ? taskEntity.getAssignedUsers().stream().map(UserEntity::getUsername).collect(Collectors.toList())
                 : null;
     }
+
+    @Override
+    public List<TaskDTO> getTasksByUserId(Long userId) {
+        List<TaskEntity> tasks = taskRepository.findByAssignedUsersUserId(userId);
+        return tasks.stream()
+                .map(TaskConverter::convertToDTO)
+                .collect(Collectors.toList());
+    }
+ 
 }

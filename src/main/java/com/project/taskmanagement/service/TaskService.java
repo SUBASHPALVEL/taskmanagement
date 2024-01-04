@@ -41,4 +41,6 @@ public interface TaskService {
     String getTaskDueDate(Long taskId);
 
     List<String> getTaskAssignedUsers(Long taskId);
+
+    List<TaskDTO> getTasksByUserId(Long userId)
 }

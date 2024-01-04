@@ -5,11 +5,13 @@ import com.project.taskmanagement.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/tasks")
 public class TaskController {
 
@@ -171,5 +173,18 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+     @GetMapping("/userTasks/{userId}")
+    public String getTasksByUserId(@PathVariable Long userId, Model model) {
+        List<TaskDTO> assignedtasks = taskService.getTasksByUserId(userId);
+        model.addAttribute("tasks", assignedtasks);
+        return "tasklist";
+    }
+
+    // @GetMapping("/userTasks/{userId}")
+    // public ResponseEntity<List<TaskDTO>> getTasksByUserId(@PathVariable Long userId) {
+    //     List<TaskDTO> tasks = taskService.getTasksByUserId(userId);
+    //     return new ResponseEntity<>(tasks, HttpStatus.OK);
+    // }
 
 }
