@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class UserController {
 
     @Autowired
@@ -41,7 +42,8 @@ public class UserController {
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
-    @PostMapping()
+    
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO createdUserDTO = userService.createUser(userDTO);
         return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);

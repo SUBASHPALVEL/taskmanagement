@@ -13,6 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/tasks")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class TaskController {
 
     @Autowired
