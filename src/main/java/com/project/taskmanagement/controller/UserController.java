@@ -82,11 +82,11 @@ public class UserController {
         return "userTasks";
     }
     
-    // @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
-    // public ResponseEntity<UserDTO> login(@Valid @ModelAttribute("user") UserDTO userDTO) {
-    //     userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
-    //     return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    // }
+    @PostMapping(path = "/login")
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO) {
+        userDTO = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
 
     // @PostMapping(path = "/login",consumes = "application/x-www-form-urlencoded;charset=UTF-8")
     // public String login(@Valid @ModelAttribute("user") UserDTO userDTO) {
@@ -101,18 +101,18 @@ public class UserController {
     // }
     // }
 
-    @PostMapping(path = "/login", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
-public String login(@Valid @ModelAttribute("user") UserDTO userDTO, Model model) {
-    try {
-        UserDTO loggedInUser = userService.login(userDTO.getUsermail(), userDTO.getPassword());
-        // Add the loggedInUser to the model if needed in the HTML template
-        model.addAttribute("loggedInUser", loggedInUser);
-        return "success"; // Assuming "success" is the name of your Thymeleaf template
-    } catch (BusinessException ex) {
-        // Handle BusinessException by adding error details to the model
-        model.addAttribute("errorList", ex.getErrorList());
-        return "failure"; // Assuming "failure" is the name of your Thymeleaf template
-    }
-}
+//     @PostMapping(path = "/login", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+// public String login(@Valid @ModelAttribute("user") UserDTO userDTO, Model model) {
+//     try {
+//         UserDTO loggedInUser = userService.login(userDTO.getUsermail(), userDTO.getPassword());
+//         // Add the loggedInUser to the model if needed in the HTML template
+//         model.addAttribute("loggedInUser", loggedInUser);
+//         return "success"; // Assuming "success" is the name of your Thymeleaf template
+//     } catch (BusinessException ex) {
+//         // Handle BusinessException by adding error details to the model
+//         model.addAttribute("errorList", ex.getErrorList());
+//         return "failure"; // Assuming "failure" is the name of your Thymeleaf template
+//     }
+// }
 
 }
